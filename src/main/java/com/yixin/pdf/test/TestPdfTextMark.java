@@ -35,7 +35,7 @@ public class TestPdfTextMark {
             String uuid = UUID.randomUUID().toString();
             PdfReader reader = new PdfReader(waterMark.getInput_file());
             PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(
-                    waterMark.getOutput_file()+uuid+".pdf"));
+                    waterMark.getOutput_file() + uuid + ".pdf"));
             BaseFont base = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.EMBEDDED);
             Rectangle pageRect;
             PdfGState gs = new PdfGState();
@@ -58,21 +58,23 @@ public class TestPdfTextMark {
             if (waterMark.getStatus() == 1) {
                 waterMark.setStart_page(1);
                 waterMark.setEnd_page(1);
-            }else if (waterMark.getStatus() == 2){
+            } else if (waterMark.getStatus() == 2) {
                 waterMark.setStart_page(1);
                 waterMark.setEnd_page(total);
-            }else if (waterMark.getStatus() == 3){
+            } else if (waterMark.getStatus() == 3) {
                 waterMark.setStart_page(1);
                 waterMark.setEnd_page(total);
-            }else if (waterMark.getStatus() == 4){
+            } else if (waterMark.getStatus() == 4) {
                 waterMark.setStart_page(1);
                 waterMark.setEnd_page(total);
             }
             for (int i = waterMark.getStart_page(); i <= waterMark.getEnd_page(); i++) {
-                if  (waterMark.getStatus() == 4&& i%2==0){
+                if (waterMark.getStatus() == 4 && i % 2 == 0) {
                     i++;
-                }else if (waterMark.getStatus() == 3 && i%2!=0){
-                    i++;
+                } else if (waterMark.getStatus() == 3 && i % 2 != 0) {
+                    if (i < total) {
+                        i++;
+                    }
                 }
                 pageRect = reader.getPageSizeWithRotation(i);
                 under = stamper.getOverContent(i);
@@ -103,8 +105,7 @@ public class TestPdfTextMark {
             System.out.println("PDF一共" + total + "页");
             stamper.close();
             reader.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
